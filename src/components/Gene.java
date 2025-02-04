@@ -12,7 +12,7 @@ public class Gene {
     }
 
     // Unlike most copy functions, this is an intentionally inaccurate copy - simulating genetic copy errors which cause
-    // mutation! 90% of the time, the gene is copied accurately.
+    // mutation! 90% of the time, the gene is copied accurately. 10% of the time, it shifts randomly up or down.
     public Gene copy() {
         int newvalue = value;
         if (rng.nextInt(100) >= 90) {
