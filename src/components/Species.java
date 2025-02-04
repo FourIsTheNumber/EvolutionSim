@@ -10,4 +10,13 @@ public class Species {
             individuals.add(new Creature(5));
         }
     }
+
+    public String toString() {
+        StringBuilder s = new StringBuilder(" --- SPECIES START --- \n");
+        for (Creature c : individuals) {
+            s.append(c.toString()).append("\n\n");
+        }
+        s.append(" --- SPECIES END --- ");
+        return s.toString();
+    }
 }

@@ -11,6 +11,6 @@ public class Main {
         env.temperature = 10;
         env.addSpecies(5);
 
-        System.out.println("Hello world!");
+        System.out.println(env.toString());
     }
 }

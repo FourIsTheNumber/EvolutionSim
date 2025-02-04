@@ -19,4 +19,13 @@ public class Creature {
         }
         age = 0;
     }
+
+    public String toString() {
+        StringBuilder s = new StringBuilder("    Creature\n");
+        int i = 1;
+        for (Gene g : genome) {
+            s.append("Gene ").append(i).append(": ").append(g.value);
+        }
+        return s.toString();
+    }
 }

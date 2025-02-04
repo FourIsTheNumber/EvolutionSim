@@ -52,4 +52,12 @@ public class Environment {
             }
         }
     }
+
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (Species sp : species) {
+            s.append(sp.toString());
+        }
+        return s.toString();
+    }
 }
