@@ -30,26 +30,30 @@ public class Environment {
     // Finally, it prepares for the next year by incrementing age and other environment variables.
     public void simulateYear() {
         for (Species s : species) {
+            ArrayList<Creature> reproductiveQueue = new ArrayList<>();
+            ArrayList<Creature> deathQueue = new ArrayList<>();
             for (Creature c : s.individuals) {
                 // Simulate chance to die based on the difference between temperature and genetic optimal temperature
                 // Creature always has a 1% chance to die every year of "random" causes
                 // TODO: this should be a (more complex) function call passed to the creature
-                int deathRate = 1 + (10 * Math.abs(temperature - c.genome.get(0).value)) + c.age;
+                int deathRate = 1 + (1 * Math.abs(temperature - c.genome.get(0).value));
                 if (rng.nextInt(1, 101) <= deathRate) {
-                    c = null;
+                    deathQueue.add(c);
                     continue;
                 }
 
                 // Do reproduction if creature is old enough
                 if (c.age >= reproductiveAge) {
                     if (rng.nextInt(1, 100) <= 20) {
-                        s.individuals.add(new Creature(c));
+                        reproductiveQueue.add(new Creature(c));
                     }
                 }
 
                 // Increment age
                 c.age += 1;
             }
+            s.individuals.addAll(reproductiveQueue);
+            s.individuals.removeAll(deathQueue);
         }
     }
 

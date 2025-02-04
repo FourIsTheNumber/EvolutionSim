@@ -6,7 +6,7 @@ public class Creature {
     // This genome will probably be later represented as a hashmap for fast lookup based on named genes
     ArrayList<Gene> genome = new ArrayList<>();
 
-    int age = 0;
+    int age = 20;
 
     // Test default
     public Creature(int temp) {
@@ -26,6 +26,7 @@ public class Creature {
         for (Gene g : genome) {
             s.append("Gene ").append(i).append(": ").append(g.value);
         }
+        s.append("\nAge: ").append(age);
         return s.toString();
     }
 }
