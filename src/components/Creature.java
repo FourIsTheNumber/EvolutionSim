@@ -27,13 +27,17 @@ public class Creature {
         age = 0;
     }
 
+    public int getGene(String key) {
+        return genome.get(key).value;
+    }
+
     public String toString() {
         StringBuilder s = new StringBuilder("    Creature\n");
         int i = 1;
         for (Gene g : genome.values()) {
-            s.append(g.key).append(": ").append(g.value);
+            s.append(g.key).append(": ").append(g.value).append("\n");
         }
-        s.append("\nAge: ").append(age);
+        s.append("Age: ").append(age);
         return s.toString();
     }
 }

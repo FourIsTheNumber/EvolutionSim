@@ -24,7 +24,7 @@ public class CreatureSimulator {
                 env.simulateYear();
             }
 
-            if (env.species.get(0).individuals.size() > 1) successes++;
+            if (!env.species.get(0).individuals.isEmpty()) successes++;
         }
 
         System.out.println("Simulated " + YEARS + " years across " + TRIALS + " trials!");

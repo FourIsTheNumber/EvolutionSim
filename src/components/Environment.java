@@ -11,8 +11,6 @@ public class Environment {
     //TODO: consolidate all these randoms somewhere
     private static final Random rng = new Random();
 
-    //TODO: should be a gene
-    final private int reproductiveAge = 20;
     //TODO: should be a gene, should be chance-based. Currently unused
     final private int deathAge = 60;
     //TODO: this should not be artificially enforced
@@ -41,7 +39,7 @@ public class Environment {
                 // Simulate chance to die based on the difference between temperature and genetic optimal temperature
                 // TODO: this should be a (more complex) function call passed to the creature
                 int ageFactor = (int) Math.round(0.3F * (Math.pow(c.age, 2)) / 40);
-                int deathRate = (Math.abs(temperature - c.genome.get("temp").value) + ageFactor);
+                int deathRate = (Math.abs(temperature - c.getGene("temp")) + ageFactor);
                 if (rollPercent(deathRate)) {
                     deathQueue.add(c);
                     s.deaths++;
@@ -49,8 +47,8 @@ public class Environment {
                 }
 
                 // Do reproduction if creature is old enough
-                if (c.age >= reproductiveAge && s.individuals.size() <= carryingCapacity) {
-                    if (rollPercent(20)) {
+                if (c.age >= c.getGene("repAge") && s.individuals.size() <= carryingCapacity) {
+                    if (rollPercent(c.getGene("repRate"))) {
                         reproductiveQueue.add(new Creature(c));
                         s.births++;
                     }
