@@ -16,7 +16,7 @@ public class Creature {
         for (Gene g : fullGeneList) {
             genome.put(g.key, g);
         }
-        age = 20;
+        age = 0;
     }
 
     // Creature constructor which inherits genes

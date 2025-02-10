@@ -37,9 +37,9 @@ public class Environment {
             ArrayList<Creature> deathQueue = new ArrayList<>();
             for (Creature c : s.individuals) {
                 // Simulate chance to die based on the difference between temperature and genetic optimal temperature
-                // Creature always has a 1% chance to die every year of "random" causes
                 // TODO: this should be a (more complex) function call passed to the creature
-                int deathRate = 1 + (1 * Math.abs(temperature - c.genome.get("temp").value));
+                int ageFactor = (int) Math.round(0.3F * (Math.pow(c.age, 2)) / 40);
+                int deathRate = (Math.abs(temperature - c.genome.get("temp").value) + ageFactor);
                 if (rng.nextInt(1, 101) <= deathRate) {
                     deathQueue.add(c);
                     s.deaths++;
@@ -48,7 +48,7 @@ public class Environment {
 
                 // Do reproduction if creature is old enough
                 if (c.age >= reproductiveAge && s.individuals.size() <= carryingCapacity) {
-                    if (rng.nextInt(1, 100) <= 20) {
+                    if (rng.nextInt(1, 101) <= 20) {
                         reproductiveQueue.add(new Creature(c));
                         s.births++;
                     }
