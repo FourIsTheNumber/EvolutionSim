@@ -1,4 +1,5 @@
 import components.Environment;
+import utils.GeneList;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -10,9 +11,11 @@ public class Main {
 
 
     public static void main(String[] args) {
+        GeneList.run();
+
         Environment env = new Environment();
         env.temperature = 10;
-        env.addSpecies(5);
+        env.addSpecies(10);
 
         System.out.println(env.toString());
 
@@ -22,7 +25,9 @@ public class Main {
             int years = keyboard.nextInt();
             if (years < 1) return;
 
-            for (int i = 0; i < years; i++) env.simulateYear();
+            for (int i = 0; i < years; i++) {
+                env.simulateYear();
+            }
             System.out.println(env.toString());
         }
     }

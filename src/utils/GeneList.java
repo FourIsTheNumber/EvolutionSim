@@ -9,6 +9,6 @@ public class GeneList {
     public static ArrayList<Gene> fullGeneList = new ArrayList<>();
 
     public static void run() {
-        fullGeneList.add(new Gene(5, "Temperature"));
+        fullGeneList.add(new Gene(5, "temp"));
     }
 }

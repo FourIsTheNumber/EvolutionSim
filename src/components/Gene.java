@@ -3,7 +3,7 @@ package components;
 import java.util.Random;
 
 public class Gene {
-    int value = 0;
+    public int value = 0;
     String key = "";
 
     private static final Random rng = new Random();
