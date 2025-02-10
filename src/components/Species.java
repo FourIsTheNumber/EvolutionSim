@@ -7,7 +7,7 @@ public class Species {
 
     public void initialize(int population) {
         for (int i = 0; i < population; i++) {
-            individuals.add(new Creature(5));
+            individuals.add(new Creature());
         }
     }
 
