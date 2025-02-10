@@ -3,6 +3,8 @@ package components;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static utils.RandomUtils.rollPercent;
+
 public class Environment {
     public int temperature;
 
@@ -40,7 +42,7 @@ public class Environment {
                 // TODO: this should be a (more complex) function call passed to the creature
                 int ageFactor = (int) Math.round(0.3F * (Math.pow(c.age, 2)) / 40);
                 int deathRate = (Math.abs(temperature - c.genome.get("temp").value) + ageFactor);
-                if (rng.nextInt(1, 101) <= deathRate) {
+                if (rollPercent(deathRate)) {
                     deathQueue.add(c);
                     s.deaths++;
                     continue;
@@ -48,7 +50,7 @@ public class Environment {
 
                 // Do reproduction if creature is old enough
                 if (c.age >= reproductiveAge && s.individuals.size() <= carryingCapacity) {
-                    if (rng.nextInt(1, 101) <= 20) {
+                    if (rollPercent(20)) {
                         reproductiveQueue.add(new Creature(c));
                         s.births++;
                     }

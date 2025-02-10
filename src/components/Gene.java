@@ -2,6 +2,8 @@ package components;
 
 import java.util.Random;
 
+import static utils.RandomUtils.rollPercent;
+
 public class Gene {
     public int value = 0;
     String key = "";
@@ -17,7 +19,7 @@ public class Gene {
     // mutation! 90% of the time, the gene is copied accurately. 10% of the time, it shifts randomly up or down.
     public Gene copy() {
         int newvalue = value;
-        if (rng.nextInt(100) >= 90) {
+        if (rollPercent(90)) {
             newvalue += rng.nextBoolean() ? 1 : -1;
         }
         return new Gene(newvalue, key);
