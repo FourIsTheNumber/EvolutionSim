@@ -5,12 +5,20 @@ import java.util.ArrayList;
 import static utils.RandomUtils.rollPercent;
 
 public class Environment {
-    public int temperature;
+    private final int temperature;
+    // Refreshed yearly - creatures must have food to survive.
+    // TODO: model j curve: over-usage of food should lead to shortage and slow recovery
+    private final int foodCapacity;
 
     //TODO: this should not be artificially enforced
     final private int carryingCapacity = 100;
 
     public ArrayList<Species> species = new ArrayList<>();
+
+    public Environment(int temperature, int foodCapacity) {
+        this.temperature = temperature;
+        this.foodCapacity = foodCapacity;
+    }
 
     public void addSpecies(int population) {
         Species s = new Species();
@@ -56,10 +64,11 @@ public class Environment {
         }
     }
 
+    @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
         for (Species sp : species) {
-            s.append(sp.toString());
+            s.append(sp);
         }
         return s.toString();
     }

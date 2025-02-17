@@ -17,6 +17,7 @@ public class Species {
         }
     }
 
+    @Override
     public String toString() {
         StringBuilder s = new StringBuilder(" --- SPECIES START --- \n");
         for (Creature c : individuals) {

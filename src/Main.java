@@ -11,11 +11,10 @@ public class Main {
     public static void main(String[] args) {
         GeneList.run();
 
-        Environment env = new Environment();
-        env.temperature = 10;
+        Environment env = new Environment(10, 1000);
         env.addSpecies(10);
 
-        System.out.println(env.toString());
+        System.out.println(env);
 
         while (true) {
             System.out.println("Enter a number of years to simulate, or a number less than 1 to quit.");
@@ -26,7 +25,7 @@ public class Main {
             for (int i = 0; i < years; i++) {
                 env.simulateYear();
             }
-            System.out.println(env.toString());
+            System.out.println(env);
         }
     }
 }

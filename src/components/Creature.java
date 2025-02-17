@@ -28,9 +28,9 @@ public class Creature {
         return genome.get(key).value;
     }
 
+    @Override
     public String toString() {
         StringBuilder s = new StringBuilder("    Creature\n");
-        int i = 1;
         for (Gene g : genome.values()) {
             s.append(g.key).append(": ").append(g.value).append("\n");
         }

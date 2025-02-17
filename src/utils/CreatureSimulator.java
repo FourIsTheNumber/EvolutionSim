@@ -16,8 +16,7 @@ public class CreatureSimulator {
 
         for (int t = 0; t < TRIALS; t++) {
 
-            Environment env = new Environment();
-            env.temperature = 10;
+            Environment env = new Environment(10, 1000);
             env.addSpecies(1);
 
             for (int i = 0; i < YEARS; i++) {

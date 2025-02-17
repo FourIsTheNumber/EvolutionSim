@@ -10,10 +10,10 @@ public class GeneList {
 
     public static void run() {
         // Contributes to death rate, compared against environmental temperature
-        fullGeneList.add(new Gene(5, "temp"));
+        fullGeneList.add(new Gene(5, "temp", 0));
         // Determines reproduction rate
-        fullGeneList.add(new Gene(50, "repRate"));
+        fullGeneList.add(new Gene(50, "repRate", 1));
         // Determines reproductive age
-        fullGeneList.add(new Gene(15, "repAge"));
+        fullGeneList.add(new Gene(15, "repAge", -5));
     }
 }
