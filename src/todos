@@ -1,2 +1,3 @@
 Major:
 - Energy system is needed to restrict boring gene optimization
+- Reproductive age goes negative, reproductive rate exceeds 100% - need to impose bounds

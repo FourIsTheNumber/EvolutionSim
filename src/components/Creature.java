@@ -12,8 +12,8 @@ public class Creature {
     // Base creature initializer
     public Creature() {
         for (Gene g : fullGeneList) {
-            genome.put(g.key, g);
-            foodUse += (g.foodAssociation * g.value);
+            genome.put(g.data.key, g);
+            foodUse += (g.data.foodAssociation * g.value);
         }
         age = 0;
     }
@@ -21,8 +21,8 @@ public class Creature {
     // Creature constructor which inherits genes
     public Creature(Creature parent) {
         for (Gene g : parent.genome.values()) {
-            genome.put(g.key, g.copy());
-            foodUse += (g.foodAssociation * g.value);
+            genome.put(g.data.key, g.copy());
+            foodUse += (g.data.foodAssociation * g.value);
         }
         age = 0;
     }
@@ -35,7 +35,7 @@ public class Creature {
     public String toString() {
         StringBuilder s = new StringBuilder("    Creature\n");
         for (Gene g : genome.values()) {
-            s.append(g.key).append(": ").append(g.value).append("\n");
+            s.append(g.data.key).append(": ").append(g.value).append("\n");
         }
         s.append("Age: ").append(age);
         s.append("\nFood Usage: ").append(foodUse);
