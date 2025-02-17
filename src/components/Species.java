@@ -25,8 +25,9 @@ public class Species {
         }
         s.append(births).append(" born. ").append(deaths).append( " died.\n");
         s.append("Total individuals: ").append(individuals.size()).append("\n");
-        s.append("Average population growth for the following cycle: ").append(StatUtils.calculateBirthRate(this)).append("%\n");
-        s.append("Average population loss for the following cycle: ").append(StatUtils.calculateDeathRate(this)).append("%\n");
+        //TODO: temporarily pointless due to changes to the algorithm
+        //s.append("Average population growth for the following cycle: ").append(StatUtils.calculateBirthRate(this)).append("%\n");
+        //s.append("Average population loss for the following cycle: ").append(StatUtils.calculateDeathRate(this)).append("%\n");
         s.append(" --- SPECIES END --- ");
         return s.toString();
     }

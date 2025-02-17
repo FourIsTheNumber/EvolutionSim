@@ -7,15 +7,15 @@ import static utils.RandomUtils.rollPercent;
 public class Gene {
     public int value;
     String key;
-    // Multiplied by value to determine effect on total energy cost
-    public int energyAssociation;
+    // Multiplied by value to determine effect on total food cost
+    public int foodAssociation;
 
     private static final Random rng = new Random();
 
-    public Gene(int value, String key, int energyAssociation) {
+    public Gene(int value, String key, int foodAssociation) {
         this.value = value;
         this.key = key;
-        this.energyAssociation = energyAssociation;
+        this.foodAssociation = foodAssociation;
     }
 
     // Unlike most copy functions, this is an intentionally inaccurate copy - simulating genetic copy errors which cause
@@ -25,6 +25,6 @@ public class Gene {
         if (rollPercent(90)) {
             newvalue += rng.nextBoolean() ? 1 : -1;
         }
-        return new Gene(newvalue, key, energyAssociation);
+        return new Gene(newvalue, key, foodAssociation);
     }
 }

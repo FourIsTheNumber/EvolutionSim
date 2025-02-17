@@ -6,12 +6,14 @@ import static utils.GeneList.fullGeneList;
 public class Creature {
     public HashMap<String, Gene> genome = new HashMap<>();
 
-    public int age = 20;
+    public int foodUse = 1;
+    public int age;
 
     // Base creature initializer
     public Creature() {
         for (Gene g : fullGeneList) {
             genome.put(g.key, g);
+            foodUse += (g.foodAssociation * g.value);
         }
         age = 0;
     }
@@ -20,6 +22,7 @@ public class Creature {
     public Creature(Creature parent) {
         for (Gene g : parent.genome.values()) {
             genome.put(g.key, g.copy());
+            foodUse += (g.foodAssociation * g.value);
         }
         age = 0;
     }
@@ -35,6 +38,7 @@ public class Creature {
             s.append(g.key).append(": ").append(g.value).append("\n");
         }
         s.append("Age: ").append(age);
+        s.append("\nFood Usage: ").append(foodUse);
         return s.toString();
     }
 }
