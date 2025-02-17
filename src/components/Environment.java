@@ -1,18 +1,12 @@
 package components;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static utils.RandomUtils.rollPercent;
 
 public class Environment {
     public int temperature;
 
-    //TODO: consolidate all these randoms somewhere
-    private static final Random rng = new Random();
-
-    //TODO: should be a gene, should be chance-based. Currently unused
-    final private int deathAge = 60;
     //TODO: this should not be artificially enforced
     final private int carryingCapacity = 100;
 

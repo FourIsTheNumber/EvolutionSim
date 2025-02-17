@@ -1,12 +1,9 @@
 package components;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static utils.GeneList.fullGeneList;
 
 public class Creature {
-    // This genome will probably be later represented as a hashmap for fast lookup based on named genes
     public HashMap<String, Gene> genome = new HashMap<>();
 
     public int age = 20;
