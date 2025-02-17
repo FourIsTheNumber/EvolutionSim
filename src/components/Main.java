@@ -1,19 +1,14 @@
-import components.Environment;
-import gui.mainui;
+package components;
+
 import utils.GeneList;
 
-import javax.swing.*;
 import java.util.Scanner;
 
 public class Main {
 
     public static final Scanner keyboard = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        GeneList.run();
-
-        Environment env = new Environment(10, 1000);
-        env.addSpecies(10);
+    public static void mainLoop(Environment env) {
 
         System.out.println(env);
 
