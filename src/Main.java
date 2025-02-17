@@ -1,12 +1,13 @@
 import components.Environment;
+import gui.mainui;
 import utils.GeneList;
 
+import javax.swing.*;
 import java.util.Scanner;
 
 public class Main {
 
     public static final Scanner keyboard = new Scanner(System.in);
-
 
     public static void main(String[] args) {
         GeneList.run();
