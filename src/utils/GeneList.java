@@ -16,9 +16,9 @@ public class GeneList {
 
         // Contributes to death rate, compared against environmental temperature
         fullGeneList.add(new Gene(5, Temperature));
-        // Determines reproduction rate
-        fullGeneList.add(new Gene(50, ReproductiveRate));
         // Determines reproductive age
         fullGeneList.add(new Gene(15, ReproductiveAge));
+        // Determines reproduction rate
+        fullGeneList.add(new Gene(50, ReproductiveRate));
     }
 }

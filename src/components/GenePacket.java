@@ -8,7 +8,7 @@ public enum GenePacket {
     ReproductiveAge("repAge", 0),
     ReproductiveRate("repRate", 0);
 
-    final String key;
+    public final String key;
     // Multiplied by value to determine effect on total food cost
     final int foodAssociation;
 
