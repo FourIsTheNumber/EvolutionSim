@@ -5,17 +5,15 @@ import components.Main;
 import utils.GeneList;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class mainui extends JFrame {
+public class SetupUI extends JFrame {
     private JPanel contentPane;
     private JButton beginSimulationButton;
     private JTextField temperatureField;
     private JTextField foodField;
     private JTextField populationField;
 
-    public mainui() {
+    public SetupUI() {
         setContentPane(contentPane);
         setTitle("Evolution Simulator");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -34,6 +32,6 @@ public class mainui extends JFrame {
     public static void main(String[] args) {
         GeneList.run();
 
-        new mainui();
+        new SetupUI();
     }
 }
