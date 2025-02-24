@@ -15,7 +15,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value=""/>
+          <text value="10"/>
         </properties>
       </component>
       <component id="5e8bf" class="javax.swing.JLabel" binding="yearsLabel">
