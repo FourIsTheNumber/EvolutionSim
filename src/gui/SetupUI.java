@@ -1,7 +1,6 @@
 package gui;
 
 import components.Environment;
-import components.Main;
 import utils.GeneList;
 
 import javax.swing.*;
