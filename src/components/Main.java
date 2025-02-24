@@ -1,5 +1,6 @@
 package components;
 
+import gui.SimulationUI;
 import utils.GeneList;
 
 import java.util.Scanner;
@@ -7,8 +8,10 @@ import java.util.Scanner;
 public class Main {
 
     public static final Scanner keyboard = new Scanner(System.in);
+    private SimulationUI ui;
+    private int totalYears;
 
-    public static void mainLoop(Environment env) {
+    public void mainLoop(Environment env) {
 
         System.out.println(env);
 
@@ -20,8 +23,14 @@ public class Main {
 
             for (int i = 0; i < years; i++) {
                 env.simulateYear();
+                totalYears++;
             }
+            ui.yearsLabel.setText("Years: " + totalYears);
             System.out.println(env);
         }
+    }
+
+    public void bindUI(SimulationUI ui) {
+        this.ui = ui;
     }
 }

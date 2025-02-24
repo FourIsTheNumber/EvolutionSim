@@ -15,7 +15,7 @@ public class SetupUI extends JFrame {
 
     public SetupUI() {
         setContentPane(contentPane);
-        setTitle("Evolution Simulator");
+        setTitle("Set Up Simulator");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(500, 300);
         setLocationRelativeTo(null);
@@ -25,7 +25,12 @@ public class SetupUI extends JFrame {
             Environment env = new Environment(Integer.parseInt(temperatureField.getText()), Integer.parseInt(foodField.getText()));
             env.addSpecies(Integer.parseInt(populationField.getText()));
 
-            Main.mainLoop(env);
+            SimulationUI ui = new SimulationUI();
+            setVisible(false);
+
+            Main simulator = new Main();
+            simulator.bindUI(ui);
+            simulator.mainLoop(env);
         });
     }
 
