@@ -2,13 +2,12 @@ package components;
 
 import java.util.Random;
 
+import static utils.RandomUtils.rollBoolean;
 import static utils.RandomUtils.rollPercent;
 
 public class Gene {
     public int value;
     public GenePacket data;
-
-    private static final Random rng = new Random();
 
     public Gene(int value, GenePacket data) {
         this.value = value;
@@ -20,7 +19,7 @@ public class Gene {
     public Gene copy() {
         int newvalue = value;
         if (rollPercent(10)) {
-            newvalue += rng.nextBoolean() ? 1 : -1;
+            newvalue += rollBoolean() ? 1 : -1;
         }
         return new Gene(newvalue, data);
     }

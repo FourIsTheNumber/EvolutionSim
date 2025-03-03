@@ -16,4 +16,7 @@ public class RandomUtils {
         return rng.nextInt(1, 101) <= percentage;
     }
 
+    public static boolean rollBoolean() {
+        return rng.nextBoolean();
+    }
 }
