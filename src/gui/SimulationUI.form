@@ -49,6 +49,15 @@
           <text value=""/>
         </properties>
       </component>
+      <component id="76afa" class="javax.swing.JButton" binding="colorButton">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Color: Temperature"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

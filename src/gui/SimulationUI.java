@@ -23,6 +23,7 @@ public class SimulationUI extends JFrame {
     private JTextField passYearsTextField;
     private JButton passYearsButton;
     private JButton pauseButton;
+    private JButton colorButton;
 
     private final Timer mainLoopTimer;
 
@@ -39,6 +40,11 @@ public class SimulationUI extends JFrame {
 
     private final ImageIcon pauseIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("./resources/pause.png")));
     private final ImageIcon playIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("./resources/play.png")));
+
+    private final int COLOR_TEMPERATURE = 1;
+    private final int COLOR_POPULATION = 2;
+
+    private int colorMode = 1;
 
 
     public SimulationUI(int population, int temperature, int food) {
@@ -96,18 +102,35 @@ public class SimulationUI extends JFrame {
             }
             isPaused = !isPaused;
         });
+
+        colorButton.addActionListener(e -> {
+            if (colorMode == COLOR_POPULATION) {
+                colorMode = COLOR_TEMPERATURE;
+                colorButton.setText("Color: Temperature");
+            } else {
+                colorMode = COLOR_POPULATION;
+                colorButton.setText("Color: Population");
+            }
+        });
+
         passYearsButton.addActionListener(e -> passYears(Integer.parseInt(passYearsTextField.getText())));
     }
 
     private Color getColorFromTemperature(int temperature) {
         float normalizedValue = (float) (temperature - 1) / 9;
 
-        // Interpolate between blue (0, 0, 255) and red (255, 0, 0)
         int red = (int) (normalizedValue * 255);
         int blue = (int) ((1 - normalizedValue) * 255);
 
-        // Create and return the color
         return new Color(red, 0, blue);
+    }
+
+    private Color getColorFromPopulation(int population, int maxPopulation) {
+        float normalizedValue = (float) (population) / maxPopulation;
+
+        int green = (int) Math.min((normalizedValue * 255), 255);
+
+        return new Color(0, green, 0);
     }
 
     // More filth code
@@ -126,13 +149,25 @@ public class SimulationUI extends JFrame {
 
         if (years < 1) return;
 
+        int maxPopulation = 0;
+
         for (int i = 0; i < years; i++) {
             for (JButton p : panelGrid) {
                 Environment env = panelEnvMap.get(p);
                 env.simulateYear();
+                if (env.creatures.size() > maxPopulation) maxPopulation = env.creatures.size();
                 p.setText(Integer.toString(env.creatures.size()));
             }
             totalYears++;
+        }
+
+        for (JButton p : panelGrid) {
+            Environment env = panelEnvMap.get(p);
+            if (colorMode == COLOR_TEMPERATURE) {
+                p.setBackground(getColorFromTemperature(env.getTemperature()));
+            } else if (colorMode == COLOR_POPULATION) {
+                p.setBackground(getColorFromPopulation(env.creatures.size(), maxPopulation));
+            }
         }
 
         //displayCreatureTable(env.creatures);
