@@ -5,10 +5,14 @@ import components.Environment;
 import components.Gene;
 import components.Species;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static utils.GeneList.fullGeneList;
 
@@ -22,13 +26,27 @@ public class SimulationUI extends JFrame {
 
     private final Environment env;
 
+    private final int BOARD_LENGTH = 3;
+    private final int BOARD_HEIGHT = 3;
+
     public SimulationUI(Environment env) {
         setContentPane(contentPane);
         setTitle("Evolution Simulator");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(500, 300);
+        setSize(1000, 1000);
         setLocationRelativeTo(null);
         setVisible(true);
+
+        JPanel envPanel = new JPanel(new GridLayout(BOARD_HEIGHT, BOARD_LENGTH, 1, 1));
+
+        for (int i = 1; i < BOARD_LENGTH * BOARD_HEIGHT; i++) {
+            JButton envTile = new JButton("");
+            envTile.setIcon(new ImageIcon(getClass().getClassLoader().getResource("./resources/boxBase.png")));
+            envPanel.add(envTile);
+        }
+
+        contentPane.add(envPanel);
+
 
         // Initialize table columns
         columnNames.add("Age"); columnNames.add("Food Usage");
