@@ -39,6 +39,10 @@ public class Environment {
         neighbors.add(env);
     }
 
+    public int getTemperature() {
+        return temperature;
+    }
+
     // For now, I'm going to model asexual reproduction, since parentage will be more complicated.
 
     // Currently, a simulated year goes through three steps for every creature in the environment.

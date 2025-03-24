@@ -4,36 +4,42 @@ import components.Creature;
 import components.Environment;
 import components.Gene;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Objects;
 
 import static utils.GeneList.fullGeneList;
+import static utils.RandomUtils.rollRange;
 
 public class SimulationUI extends JFrame {
     private JPanel contentPane;
     public JLabel yearsLabel;
     private JTextField passYearsTextField;
     private JButton passYearsButton;
+    private JButton pauseButton;
+
+    private final Timer mainLoopTimer;
 
     private int totalYears;
 
-    private final int BOARD_LENGTH = 3;
-    private final int BOARD_HEIGHT = 3;
+    private boolean isPaused = false;
+
+    private final int BOARD_LENGTH = 6;
+    private final int BOARD_HEIGHT = 6;
     // This is filth code written by a goblin
     private final ArrayList<JButton> panelGrid = new ArrayList<>();
     private Environment[][] envGrid;
     private final HashMap<JButton, Environment> panelEnvMap = new HashMap<>();
 
-    private final ImageIcon baseGridImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("./resources/boxBase.png")));
+    private final ImageIcon pauseIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("./resources/pause.png")));
+    private final ImageIcon playIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("./resources/play.png")));
+
 
     public SimulationUI(int population, int temperature, int food) {
         setContentPane(contentPane);
@@ -43,20 +49,30 @@ public class SimulationUI extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
+        mainLoopTimer = new Timer(1000, e -> passYears(1));
+        mainLoopTimer.setRepeats(true);
+        mainLoopTimer.start();
+
         JPanel envPanel = new JPanel(new GridLayout(BOARD_HEIGHT, BOARD_LENGTH, 1, 1));
         envGrid = new Environment[BOARD_LENGTH][BOARD_HEIGHT];
 
         for (int i = 0; i < BOARD_LENGTH * BOARD_HEIGHT; i++) {
+            boolean isBaseGrid = i == (BOARD_LENGTH * BOARD_HEIGHT) / 2;
+
             JButton envTile = new JButton("");
-            envTile.setIcon(applyRGBFilter(baseGridImage, 255, 255, 0));
+            //envTile.setIcon(applyRGBFilter(baseGridImage, 255, 255, 0));
             envTile.addActionListener(e -> displayCreatureTable(envTile));
             panelGrid.add(envTile);
-            Environment newEnv = new Environment(temperature, food);
+            Environment newEnv = new Environment(isBaseGrid ? temperature : rollRange(1, 11), food);
             //Put population into roughly the middle grid
-            if (i == (BOARD_LENGTH * BOARD_HEIGHT) / 2) newEnv.addCreatures(population);
+            if (isBaseGrid) newEnv.addCreatures(population);
             envGrid[i % BOARD_LENGTH][i / BOARD_HEIGHT] = newEnv;
             panelEnvMap.put(envTile, newEnv);
             envPanel.add(envTile);
+
+            envTile.setBackground(getColorFromTemperature(newEnv.getTemperature()));
+            envTile.setPreferredSize(new Dimension(64, 64));
+            envTile.setForeground(Color.WHITE);
         }
 
         envPanel.setVisible(true);
@@ -70,7 +86,28 @@ public class SimulationUI extends JFrame {
             columnNames.add(g.data.key);
         }
 
+        pauseButton.addActionListener(e -> {
+            if (isPaused) {
+                mainLoopTimer.start();
+                pauseButton.setIcon(pauseIcon);
+            } else {
+                mainLoopTimer.stop();
+                pauseButton.setIcon(playIcon);
+            }
+            isPaused = !isPaused;
+        });
         passYearsButton.addActionListener(e -> passYears(Integer.parseInt(passYearsTextField.getText())));
+    }
+
+    private Color getColorFromTemperature(int temperature) {
+        float normalizedValue = (float) (temperature - 1) / 9;
+
+        // Interpolate between blue (0, 0, 255) and red (255, 0, 0)
+        int red = (int) (normalizedValue * 255);
+        int blue = (int) ((1 - normalizedValue) * 255);
+
+        // Create and return the color
+        return new Color(red, 0, blue);
     }
 
     // More filth code
