@@ -39,12 +39,12 @@ public class SimulationUI extends JFrame {
 
         JPanel envPanel = new JPanel(new GridLayout(BOARD_HEIGHT, BOARD_LENGTH, 1, 1));
 
-        for (int i = 1; i < BOARD_LENGTH * BOARD_HEIGHT; i++) {
+        for (int i = 0; i < BOARD_LENGTH * BOARD_HEIGHT; i++) {
             JButton envTile = new JButton("");
             envTile.setIcon(new ImageIcon(getClass().getClassLoader().getResource("./resources/boxBase.png")));
             envPanel.add(envTile);
         }
-
+        envPanel.setVisible(true);
         contentPane.add(envPanel);
 
 
