@@ -23,10 +23,7 @@ public class SetupUI extends JFrame {
         beginSimulationButton.addActionListener(e -> {
             setVisible(false);
 
-            Environment env = new Environment(Integer.parseInt(temperatureField.getText()), Integer.parseInt(foodField.getText()));
-            env.addCreatures(Integer.parseInt(populationField.getText()));
-
-            new SimulationUI(env);
+            new SimulationUI(Integer.parseInt(populationField.getText()), Integer.parseInt(temperatureField.getText()), Integer.parseInt(foodField.getText()));
         });
     }
 
