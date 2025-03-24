@@ -17,13 +17,13 @@ public class CreatureSimulator {
         for (int t = 0; t < TRIALS; t++) {
 
             Environment env = new Environment(10, 1000);
-            env.addSpecies(1);
+            env.addCreatures(1);
 
             for (int i = 0; i < YEARS; i++) {
                 env.simulateYear();
             }
 
-            if (!env.species.get(0).individuals.isEmpty()) successes++;
+            if (!env.creatures.isEmpty()) successes++;
         }
 
         System.out.println("Simulated " + YEARS + " years across " + TRIALS + " trials!");

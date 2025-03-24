@@ -24,7 +24,7 @@ public class SetupUI extends JFrame {
             setVisible(false);
 
             Environment env = new Environment(Integer.parseInt(temperatureField.getText()), Integer.parseInt(foodField.getText()));
-            env.addSpecies(Integer.parseInt(populationField.getText()));
+            env.addCreatures(Integer.parseInt(populationField.getText()));
 
             new SimulationUI(env);
         });

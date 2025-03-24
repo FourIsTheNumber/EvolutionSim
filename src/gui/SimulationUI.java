@@ -74,7 +74,7 @@ public class SimulationUI extends JFrame {
             totalYears++;
         }
 
-        //displaySpeciesTable(env.species.get(0));
+        displayCreatureTable(env.creatures);
 
         yearsLabel.setText("Years: " + totalYears);
         System.out.println(env);
