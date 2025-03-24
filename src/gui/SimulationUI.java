@@ -28,7 +28,9 @@ public class SimulationUI extends JFrame {
 
     private final int BOARD_LENGTH = 3;
     private final int BOARD_HEIGHT = 3;
+    // This is filth code written by a goblin
     private final ArrayList<JButton> panelGrid = new ArrayList<>();
+    private Environment[][] envGrid;
     private final HashMap<JButton, Environment> panelEnvMap = new HashMap<>();
 
     private final ImageIcon baseGridImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("./resources/boxBase.png")));
@@ -42,6 +44,7 @@ public class SimulationUI extends JFrame {
         setVisible(true);
 
         JPanel envPanel = new JPanel(new GridLayout(BOARD_HEIGHT, BOARD_LENGTH, 1, 1));
+        envGrid = new Environment[BOARD_LENGTH][BOARD_HEIGHT];
 
         for (int i = 0; i < BOARD_LENGTH * BOARD_HEIGHT; i++) {
             JButton envTile = new JButton("");
@@ -51,12 +54,15 @@ public class SimulationUI extends JFrame {
             Environment newEnv = new Environment(temperature, food);
             //Put population into roughly the middle grid
             if (i == (BOARD_LENGTH * BOARD_HEIGHT) / 2) newEnv.addCreatures(population);
+            envGrid[i % BOARD_LENGTH][i / BOARD_HEIGHT] = newEnv;
             panelEnvMap.put(envTile, newEnv);
             envPanel.add(envTile);
         }
+
         envPanel.setVisible(true);
         contentPane.add(envPanel);
 
+        assignNeighbors();
 
         // Initialize table columns
         columnNames.add("Age"); columnNames.add("Food Usage");
@@ -65,6 +71,18 @@ public class SimulationUI extends JFrame {
         }
 
         passYearsButton.addActionListener(e -> passYears(Integer.parseInt(passYearsTextField.getText())));
+    }
+
+    // More filth code
+    private void assignNeighbors() {
+        for (int x = 0; x < BOARD_LENGTH; x++) {
+            for (int y = 0; y < BOARD_HEIGHT; y++) {
+                if (x != 0) envGrid[x][y].addNeighbor(envGrid[x-1][y]);
+                if (x != BOARD_LENGTH - 1) envGrid[x][y].addNeighbor(envGrid[x+1][y]);
+                if (y != 0) envGrid[x][y].addNeighbor(envGrid[x][y-1]);
+                if (y != BOARD_HEIGHT - 1) envGrid[x][y].addNeighbor(envGrid[x][y+1]);
+            }
+        }
     }
 
     private void passYears(int years) {

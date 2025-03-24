@@ -1,8 +1,11 @@
 package components;
 
+import utils.RandomUtils;
+
 import java.util.ArrayList;
 
 import static utils.RandomUtils.rollPercent;
+import static utils.RandomUtils.rollRange;
 
 public class Environment {
     private final int temperature;
@@ -16,6 +19,9 @@ public class Environment {
     //TODO: this should not be artificially enforced
     final private int carryingCapacity = 100;
 
+    // Determine migration ability
+    final private ArrayList<Environment> neighbors = new ArrayList<>();
+
     public ArrayList<Creature> creatures = new ArrayList<>();
 
     public Environment(int temperature, int foodCapacity) {
@@ -27,6 +33,10 @@ public class Environment {
         for (int i = 0; i < population; i++) {
             creatures.add(new Creature());
         }
+    }
+
+    public void addNeighbor(Environment env) {
+        neighbors.add(env);
     }
 
     // For now, I'm going to model asexual reproduction, since parentage will be more complicated.
@@ -43,9 +53,18 @@ public class Environment {
         ArrayList<Creature> deathQueue = new ArrayList<>();
 
         for (Creature c : creatures) {
-                // Use food
-                boolean ateFood = food >= c.foodUse;
-                food -= c.foodUse;
+            // Use food
+            boolean ateFood = food >= c.foodUse;
+            food -= c.foodUse;
+
+            // Try migration
+            // TODO: Use local temperature
+            if (rollPercent(ateFood ? 1 : 90)) {
+                Environment n = neighbors.get(rollRange(0, neighbors.size()));
+                n.creatures.add(c);
+                deathQueue.add(c);
+                continue;
+            }
 
                 // Simulate chance to die based on the difference between temperature and genetic optimal temperature
                 // TODO: this should be a (more complex) function call passed to the creature

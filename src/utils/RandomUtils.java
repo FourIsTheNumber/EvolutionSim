@@ -19,4 +19,11 @@ public class RandomUtils {
     public static boolean rollBoolean() {
         return rng.nextBoolean();
     }
+
+    /**
+     * This is just a wrapped call to nextInt. Minimum inclusive, maximum exclusive.
+     */
+    public static int rollRange(int min, int max) {
+        return rng.nextInt(min, max);
+    }
 }
