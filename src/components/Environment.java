@@ -16,17 +16,17 @@ public class Environment {
     //TODO: this should not be artificially enforced
     final private int carryingCapacity = 100;
 
-    public ArrayList<Species> species = new ArrayList<>();
+    public ArrayList<Creature> creatures = new ArrayList<>();
 
     public Environment(int temperature, int foodCapacity) {
         this.temperature = temperature;
         this.foodCapacity = foodCapacity;
     }
 
-    public void addSpecies(int population) {
-        Species s = new Species();
-        s.initialize(population);
-        species.add(s);
+    public void addCreatures(int population) {
+        for (int i = 0; i < population; i++) {
+            creatures.add(new Creature());
+        }
     }
 
     // For now, I'm going to model asexual reproduction, since parentage will be more complicated.
@@ -39,11 +39,10 @@ public class Environment {
         // Initialize the year's food
         int food = foodCapacity;
 
-        for (Species s : species) {
-            s.deaths = 0; s.births = 0;
-            ArrayList<Creature> reproductiveQueue = new ArrayList<>();
-            ArrayList<Creature> deathQueue = new ArrayList<>();
-            for (Creature c : s.individuals) {
+        ArrayList<Creature> reproductiveQueue = new ArrayList<>();
+        ArrayList<Creature> deathQueue = new ArrayList<>();
+
+        for (Creature c : creatures) {
                 // Use food
                 boolean ateFood = food >= c.foodUse;
                 food -= c.foodUse;
@@ -56,7 +55,6 @@ public class Environment {
                 if (!ateFood) deathRate += 30;
                 if (rollPercent(deathRate)) {
                     deathQueue.add(c);
-                    s.deaths++;
                     continue;
                 }
 
@@ -64,25 +62,24 @@ public class Environment {
                 if (c.age >= c.getGene("repAge") && ateFood) {
                     if (rollPercent(c.getGene("repRate"))) {
                         reproductiveQueue.add(new Creature(c));
-                        s.births++;
                     }
                 }
 
                 // Increment age
                 c.age += 1;
             }
-            s.individuals.addAll(reproductiveQueue);
-            s.individuals.removeAll(deathQueue);
-        }
+            creatures.addAll(reproductiveQueue);
+            creatures.removeAll(deathQueue);
+
         foodUsedLast = foodCapacity - food;
     }
 
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        for (Species sp : species) {
-            s.append(sp);
-        }
+        //for (Species sp : species) {
+        //    s.append(sp);
+        //}
         s.append("\nFood used this year: ").append(foodUsedLast);
         return s.toString();
     }
