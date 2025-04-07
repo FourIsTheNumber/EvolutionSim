@@ -18,6 +18,8 @@ public class Environment {
 
     private int foodUsedLast;
 
+    private boolean isAquatic = false;
+
     // Determine migration ability
     final private ArrayList<Environment> neighbors = new ArrayList<>();
 
@@ -27,6 +29,8 @@ public class Environment {
         this.biome = biome;
         this.temperature = Math.max(rollRange(biome.baseTemp - 1, biome.baseTemp + 2), 1);
         this.foodCapacity = biome.food;
+
+        isAquatic = Biome.isAquaticBiome(biome);
     }
 
     // Deprecated
@@ -67,6 +71,18 @@ public class Environment {
         return -1;
     }
 
+    public boolean isSuitableFor(Creature c) {
+        int aFactor = c.getGene("aquatic");
+        int temp = c.getGene("temp");
+        boolean aquaticCreature = aFactor <= 5;
+        boolean landCreature = aFactor >= 5;
+
+        boolean suitable = isAquatic && aquaticCreature || !isAquatic && landCreature;
+        suitable = suitable && Math.abs(temperature - temp) <= 2;
+
+        return suitable;
+    }
+
     // For now, I'm going to model asexual reproduction, since parentage will be more complicated.
 
     // Currently, a simulated year goes through three steps for every creature in the environment.
@@ -85,19 +101,32 @@ public class Environment {
             boolean ateFood = food >= c.foodUse;
             food -= c.foodUse;
 
+            int aFactor = c.getGene("aquatic");
+            boolean aquaticCreature = aFactor <= 5;
+            boolean landCreature = aFactor >= 5;
+
+            // Kill creatures in unsuitable biomes
+            if (isAquatic && !aquaticCreature || !isAquatic && aquaticCreature) {
+                deathQueue.add(c);
+                continue;
+            }
+
             // Try migration
             // TODO: Use local temperature
             if (rollPercent(ateFood ? 1 : 90)) {
                 Environment n = neighbors.get(rollRange(0, neighbors.size()));
-                n.creatures.add(c);
-                deathQueue.add(c);
-                continue;
+                // Do not migrate to unsuitable biomes
+                if (n.isSuitableFor(c)) {
+                    n.creatures.add(c);
+                    deathQueue.add(c);
+                    continue;
+                }
             }
 
                 // Simulate chance to die based on the difference between temperature and genetic optimal temperature
                 // TODO: this should be a (more complex) function call passed to the creature
                 int ageFactor = (int) Math.round(0.3F * (Math.pow(c.age, 2)) / 40);
-                int deathRate = (Math.abs(temperature - c.getGene("temp") * 2) + ageFactor);
+                int deathRate = (Math.abs((temperature - c.getGene("temp")) * 5) + ageFactor);
                 // Apply harsh penalty for starved creatures
                 if (!ateFood) deathRate += 30;
                 if (rollPercent(deathRate)) {

@@ -22,7 +22,13 @@ public enum Biome {
     Taiga("Taiga", 1, 100, "resources/biomeTiles/taigaTile.png",
             List.of("resources/biomeDecorations/taigahill.png",
                     "resources/biomeDecorations/taigatree1.png",
-                    "resources/biomeDecorations/taigatree2.png"));
+                    "resources/biomeDecorations/taigatree2.png")),
+    Ocean("Ocean", 5, 0, "resources/biomeTiles/oceanTile.png",
+            List.of("resources/biomeDecorations/wave1.png",
+                    "resources/biomeDecorations/wave2.png",
+                    "resources/biomeDecorations/wave3.png")),
+    Plains("Plains", 4, 200, "resources/biomeTiles/plainsTile.png",
+            List.of("resources/biomeDecorations/grass1.png"));
 
 
     public final String name;
@@ -49,5 +55,9 @@ public enum Biome {
 
     public static Biome getRandomBiome() {
         return Biome.values()[rollRange(0, Biome.values().length)];
+    }
+
+    public static boolean isAquaticBiome(Biome b) {
+        return b == Ocean;
     }
 }

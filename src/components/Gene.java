@@ -1,6 +1,6 @@
 package components;
 
-import java.util.Random;
+import utils.MathUtils;
 
 import static utils.RandomUtils.rollBoolean;
 import static utils.RandomUtils.rollPercent;
@@ -21,6 +21,6 @@ public class Gene {
         if (rollPercent(10)) {
             newvalue += rollBoolean() ? 1 : -1;
         }
-        return new Gene(newvalue, data);
+        return new Gene(MathUtils.clamp(newvalue, data.min, data.max), data);
     }
 }
