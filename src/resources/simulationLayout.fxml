@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SetupUIJfx">
+   <RadioButton fx:id="defaultButton" layoutX="18.0" layoutY="16.0" mnemonicParsing="false" selected="true" text="No Overlay">
+      <toggleGroup>
+         <ToggleGroup fx:id="overlayGroup" />
+      </toggleGroup></RadioButton>
+   <RadioButton fx:id="popButton" layoutX="18.0" layoutY="36.0" mnemonicParsing="false" text="Population" toggleGroup="$overlayGroup" />
+   <RadioButton fx:id="tempButton" layoutX="18.0" layoutY="56.0" mnemonicParsing="false" text="Temperatures" toggleGroup="$overlayGroup" />
+   <StackPane fx:id="stackPane" layoutX="227.0" layoutY="14.0" prefHeight="366.0" prefWidth="357.0" />
+   <Accordion layoutX="18.0" layoutY="96.0">
+     <panes>
+       <TitledPane animated="false" text="Environment">
+         <content>
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                     <VBox layoutX="7.0" layoutY="7.0" prefHeight="166.0" prefWidth="186.0">
+                        <children>
+                           <Label fx:id="biomeLabel" text="Biome: " />
+                           <Label fx:id="temperatureLabel" text="Temperature: " />
+                           <Label fx:id="foodLabel" text="Food Per Year: " />
+                        </children>
+                     </VBox>
+                  </children>
+               </AnchorPane>
+         </content>
+       </TitledPane>
+       <TitledPane animated="false" text="Creatures">
+         <content>
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                     <VBox layoutX="8.0" layoutY="8.0" prefHeight="164.0" prefWidth="183.0">
+                        <children>
+                           <Label fx:id="populationLabel" text="Population: " />
+                           <Label fx:id="speciesTemperatureLabel" text="Average Temperature Tolerance: " />
+                        </children>
+                     </VBox>
+                  </children>
+               </AnchorPane>
+         </content>
+       </TitledPane>
+     </panes>
+   </Accordion>
+   <Button layoutX="168.0" layoutY="361.0" mnemonicParsing="false" text="Pass" fx:id="passTimeButton" onAction="#passTimeButtonPress"/>
+   <TextField layoutX="14.0" layoutY="361.0" fx:id="passTimeTextField"/>
+</AnchorPane>

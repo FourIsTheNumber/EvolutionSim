@@ -1,5 +1,6 @@
 package utils;
 
+import components.Biome;
 import components.Environment;
 
 public class CreatureSimulator {
@@ -16,7 +17,7 @@ public class CreatureSimulator {
 
         for (int t = 0; t < TRIALS; t++) {
 
-            Environment env = new Environment(10, 1000);
+            Environment env = new Environment(10, 1000, Biome.Forest);
             env.addCreatures(1);
 
             for (int i = 0; i < YEARS; i++) {

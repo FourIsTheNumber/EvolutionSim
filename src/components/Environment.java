@@ -14,19 +14,26 @@ public class Environment {
     // TODO: model j curve: over-usage of food should lead to shortage and slow recovery
     private final int foodCapacity;
 
-    private int foodUsedLast;
+    private final Biome biome;
 
-    //TODO: this should not be artificially enforced
-    final private int carryingCapacity = 100;
+    private int foodUsedLast;
 
     // Determine migration ability
     final private ArrayList<Environment> neighbors = new ArrayList<>();
 
     public ArrayList<Creature> creatures = new ArrayList<>();
 
-    public Environment(int temperature, int foodCapacity) {
+    public Environment(Biome biome) {
+        this.biome = biome;
+        this.temperature = Math.max(rollRange(biome.baseTemp - 1, biome.baseTemp + 2), 1);
+        this.foodCapacity = biome.food;
+    }
+
+    // Deprecated
+    public Environment(int temperature, int foodCapacity, Biome biome) {
         this.temperature = temperature;
         this.foodCapacity = foodCapacity;
+        this.biome = biome;
     }
 
     public void addCreatures(int population) {
@@ -41,6 +48,23 @@ public class Environment {
 
     public int getTemperature() {
         return temperature;
+    }
+
+    public Biome getBiome() { return biome; }
+
+    public int getFoodCapacity() {
+        return foodCapacity;
+    }
+
+    public int calculateAverageTolerance() {
+        if (!creatures.isEmpty()) {
+            int total = 0;
+            for (Creature c : creatures) {
+                total += c.getGene("temp");
+            }
+            return total / creatures.size();
+        }
+        return -1;
     }
 
     // For now, I'm going to model asexual reproduction, since parentage will be more complicated.
@@ -73,7 +97,7 @@ public class Environment {
                 // Simulate chance to die based on the difference between temperature and genetic optimal temperature
                 // TODO: this should be a (more complex) function call passed to the creature
                 int ageFactor = (int) Math.round(0.3F * (Math.pow(c.age, 2)) / 40);
-                int deathRate = (Math.abs(temperature - c.getGene("temp")) + ageFactor);
+                int deathRate = (Math.abs(temperature - c.getGene("temp") * 2) + ageFactor);
                 // Apply harsh penalty for starved creatures
                 if (!ateFood) deathRate += 30;
                 if (rollPercent(deathRate)) {

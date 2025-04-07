@@ -1,5 +1,6 @@
 package gui;
 
+import components.Biome;
 import components.Creature;
 import components.Environment;
 import components.Gene;
@@ -69,7 +70,7 @@ public class SimulationUI extends JFrame {
             //envTile.setIcon(applyRGBFilter(baseGridImage, 255, 255, 0));
             envTile.addActionListener(e -> displayCreatureTable(envTile));
             panelGrid.add(envTile);
-            Environment newEnv = new Environment(isBaseGrid ? temperature : rollRange(1, 11), food);
+            Environment newEnv = new Environment(isBaseGrid ? temperature : rollRange(1, 11), food, Biome.Forest);
             //Put population into roughly the middle grid
             if (isBaseGrid) newEnv.addCreatures(population);
             envGrid[i % BOARD_LENGTH][i / BOARD_HEIGHT] = newEnv;

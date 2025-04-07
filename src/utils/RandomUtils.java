@@ -26,4 +26,11 @@ public class RandomUtils {
     public static int rollRange(int min, int max) {
         return rng.nextInt(min, max);
     }
+
+    /**
+     * This is just a wrapped call to nextInt. Minimum 0, maximum exclusive.
+     */
+    public static int rollRange(int max) {
+        return rng.nextInt(max);
+    }
 }
