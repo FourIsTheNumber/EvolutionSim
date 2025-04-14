@@ -60,4 +60,9 @@ public enum Biome {
     public static boolean isAquaticBiome(Biome b) {
         return b == Ocean;
     }
+
+    public static Biome getNextBiome(Biome b) {
+        if (b.ordinal() + 1 >= Biome.values().length) return Biome.values()[0];
+        else return Biome.values()[b.ordinal() + 1];
+    }
 }

@@ -44,6 +44,7 @@
        </TitledPane>
      </panes>
    </Accordion>
-   <Button layoutX="168.0" layoutY="361.0" mnemonicParsing="false" text="Pass" fx:id="passTimeButton" onAction="#passTimeButtonPress"/>
-   <TextField layoutX="14.0" layoutY="361.0" fx:id="passTimeTextField"/>
+   <Button fx:id="passTimeButton" layoutX="168.0" layoutY="361.0" mnemonicParsing="false" onAction="#passTimeButtonPress" text="Pass" />
+   <TextField fx:id="passTimeTextField" layoutX="14.0" layoutY="361.0" />
+   <ChoiceBox fx:id="paintChoiceBox" layoutX="14.0" layoutY="328.0" prefWidth="150.0" />
 </AnchorPane>

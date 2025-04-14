@@ -12,11 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -28,15 +24,14 @@ import utils.ImageUtils;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import static utils.RandomUtils.rollRange;
 
 public class SetupUIJfx extends Application {
 
+    @FXML private ChoiceBox<String> paintChoiceBox;
     @FXML private Button passTimeButton;
     @FXML private TextField passTimeTextField;
 
@@ -93,15 +88,19 @@ public class SetupUIJfx extends Application {
             totalYears++;
         }
 
+        renderOverlay();
+
+        Platform.runLater(this::updateLabels);
+
+        //yearsLabel.setText("Years: " + totalYears);
+    }
+
+    private void renderOverlay() {
         switch (colorMode) {
             case 0 -> Platform.runLater(this::renderNoOverlay);
             case 1 -> Platform.runLater(() -> renderPopulationOverlay(maxPopulation));
             case 2 -> Platform.runLater(this::renderTemperatureOverlay);
         }
-
-        Platform.runLater(this::updateLabels);
-
-        //yearsLabel.setText("Years: " + totalYears);
     }
 
     private void updateLabels() {
@@ -167,6 +166,9 @@ public class SetupUIJfx extends Application {
         return x >= 0 && y >= 0 && x < BOARD_LENGTH && y < BOARD_HEIGHT;
     }
 
+    // Used for painting
+    private static final HashMap<String, Biome> nameToBiome = new HashMap<>();
+
     // I am using the same controller for both FXML files.
     // That means this method is called twice - on the first call, setupUI has initialized.
     // On the second call, simulationUI has initialized.
@@ -176,9 +178,16 @@ public class SetupUIJfx extends Application {
         if (stackPane == null) {
             System.out.println("Initializing setup pane");
         } else {
+            paintChoiceBox.getItems().addAll("None", "Creatures");
+            for (Biome b : Biome.values()) {
+                paintChoiceBox.getItems().add(b.name);
+                nameToBiome.put(b.name, b);
+            }
+
             System.out.println("Initializing simulation pane");
 
             int totalTiles = BOARD_HEIGHT * BOARD_LENGTH;
+
             int completedTiles = 0;
 
             // Randomly seed some random biomes throughout the board
@@ -264,6 +273,16 @@ public class SetupUIJfx extends Application {
         selectedY = tileY;
         System.out.println("Clicked tile at: " + tileX + ", " + tileY);
 
+        String paint = paintChoiceBox.getValue();
+        if (!paint.equals("None")) {
+            if (paint.equals("Creatures")) {
+                envGrid[selectedX][selectedY].addCreatures(10);
+            } else {
+                biomeGrid[selectedX][selectedY] = nameToBiome.get(paint);
+                envGrid[selectedX][selectedY] = new Environment(biomeGrid[selectedX][selectedY]);
+            }
+        }
+        renderOverlay();
         updateLabels();
     }
 
