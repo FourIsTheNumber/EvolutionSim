@@ -205,20 +205,20 @@ public class SetupUIJfx extends Application {
                 else i--;
             }
 
-            // Places biomes based on adjacency with no random transitions
-            // TODO: this sucks so bad. Find something better.
             int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+            List<int[]> directionsList = new ArrayList<>(Arrays.stream(directions).toList());
             while (completedTiles < totalTiles) {
                 for (int y = 0; y < BOARD_HEIGHT; y++) {
                     for (int x = 0; x < BOARD_LENGTH; x++) {
                         if (biomeGrid[x][y] != null) {
-                            for (int[] dir : directions) {
+                            Collections.shuffle(directionsList);
+                            for (int[] dir : directionsList) {
                                 int nX = x + dir[0];
                                 int nY = y + dir[1];
 
                                 if (isInBounds(nX, nY) && biomeGrid[nX][nY] == null) {
                                     Biome b = biomeGrid[x][y];
-                                    if (RandomUtils.rollRange(0, 10) == 0) {
+                                    if (RandomUtils.rollRange(0, 8) == 0) {
                                         List<Biome> similars = Biome.getSimilarBiomes(b);
                                         assert similars != null;
                                         int i = RandomUtils.rollRange(0, similars.size());
