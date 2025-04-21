@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static utils.RandomUtils.rollRange;
 
@@ -64,5 +65,20 @@ public enum Biome {
     public static Biome getNextBiome(Biome b) {
         if (b.ordinal() + 1 >= Biome.values().length) return Biome.values()[0];
         else return Biome.values()[b.ordinal() + 1];
+    }
+
+    public static List<Biome> getSimilarBiomes(Biome b) {
+        switch (b) {
+            case Ocean -> {
+                return List.of(Desert, Forest, Taiga, Plains);
+            }
+            case Desert, Forest, Taiga -> {
+                return List.of(Plains);
+            }
+            case Plains -> {
+                return List.of(Forest, Taiga, Desert);
+            }
+        }
+        return null;
     }
 }

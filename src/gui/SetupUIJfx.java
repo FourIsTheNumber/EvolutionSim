@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import utils.GeneList;
 import utils.ImageUtils;
+import utils.RandomUtils;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -192,7 +193,7 @@ public class SetupUIJfx extends Application {
 
             // Randomly seed some random biomes throughout the board
             // If tile was already seeded, try again
-            int seeds = totalTiles / 10;
+            int seeds = totalTiles / 20;
             for (int i = 0; i < seeds; i++) {
                 int rX = rollRange(0, BOARD_LENGTH);
                 int rY = rollRange(0, BOARD_HEIGHT);
@@ -216,7 +217,15 @@ public class SetupUIJfx extends Application {
                                 int nY = y + dir[1];
 
                                 if (isInBounds(nX, nY) && biomeGrid[nX][nY] == null) {
-                                    biomeGrid[nX][nY] = biomeGrid[x][y];
+                                    Biome b = biomeGrid[x][y];
+                                    if (RandomUtils.rollRange(0, 10) == 0) {
+                                        List<Biome> similars = Biome.getSimilarBiomes(b);
+                                        assert similars != null;
+                                        int i = RandomUtils.rollRange(0, similars.size());
+                                        b = similars.get(i);
+                                    }
+
+                                    biomeGrid[nX][nY] = b;
                                     completedTiles++;
                                 }
                             }
@@ -302,7 +311,7 @@ public class SetupUIJfx extends Application {
                 gc.drawImage(new Image(biome.getTileResourceLocation()), x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
                 // Special seeded random so that the decorations remain consistent
-                Random rand = new Random(x * 42438763 ^ y * 53419812);
+                Random rand = new Random(44 * x + 22 * y);
 
                 // Draw decorative overlays
                 int decorationsToDraw = rand.nextInt(1, 3);
