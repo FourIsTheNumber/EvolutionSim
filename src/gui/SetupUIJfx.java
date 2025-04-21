@@ -283,7 +283,7 @@ public class SetupUIJfx extends Application {
         System.out.println("Clicked tile at: " + tileX + ", " + tileY);
 
         String paint = paintChoiceBox.getValue();
-        if (!paint.equals("None")) {
+        if (paint != null && !paint.equals("None")) {
             if (paint.equals("Creatures")) {
                 envGrid[selectedX][selectedY].addCreatures(10);
             } else {
