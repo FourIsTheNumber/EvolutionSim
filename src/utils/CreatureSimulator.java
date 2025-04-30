@@ -21,7 +21,7 @@ public class CreatureSimulator {
             env.addCreatures(1);
 
             for (int i = 0; i < YEARS; i++) {
-                env.simulateYear();
+                env.simulateYear(i);
             }
 
             if (!env.creatures.isEmpty()) successes++;

@@ -21,13 +21,14 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import utils.GeneList;
 import utils.ImageUtils;
+import utils.Logger;
 import utils.RandomUtils;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.Timer;
 
+import static utils.Logger.csvWriter;
 import static utils.RandomUtils.rollRange;
 
 public class SetupUIJfx extends Application {
@@ -81,7 +82,7 @@ public class SetupUIJfx extends Application {
         for (int i = 0; i < years; i++) {
             for (int x = 0; x < BOARD_LENGTH; x++) {
                 for (int y = 0; y < BOARD_HEIGHT; y++) {
-                    envGrid[x][y].simulateYear();
+                    envGrid[x][y].simulateYear(totalYears);
                     if (envGrid[x][y].creatures.size() > maxPopulation) maxPopulation = envGrid[x][y].creatures.size();
                     //p.setText(Integer.toString(env.creatures.size()));
                 }
@@ -127,11 +128,18 @@ public class SetupUIJfx extends Application {
         Scene scene = new Scene(root, 500, 500);
         stage.setScene(scene);
         stage.setTitle("Set Up Simulator");
+
+        stage.setOnCloseRequest(ignored -> {
+            csvWriter.close();
+            System.exit(0);
+        });
+
         stage.show();
     }
 
     public static void main(String[] args) {
         GeneList.run();
+        Logger.writeHeader();
         launch(args);
     }
 
@@ -144,7 +152,10 @@ public class SetupUIJfx extends Application {
         stage.setScene(scene);
         stage.show();
 
-        stage.show();
+        stage.setOnCloseRequest(ignored -> {
+            if (csvWriter != null) csvWriter.close();
+            System.exit(0);
+        });
 
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.close();
@@ -180,13 +191,14 @@ public class SetupUIJfx extends Application {
         if (stackPane == null) {
             System.out.println("Initializing setup pane");
         } else {
+            System.out.println("Initializing simulation pane");
+
             paintChoiceBox.getItems().addAll("None", "Creatures");
+            paintChoiceBox.setValue("None");
             for (Biome b : Biome.values()) {
                 paintChoiceBox.getItems().add(b.name);
                 nameToBiome.put(b.name, b);
             }
-
-            System.out.println("Initializing simulation pane");
 
             int totalTiles = BOARD_HEIGHT * BOARD_LENGTH;
 
@@ -239,6 +251,7 @@ public class SetupUIJfx extends Application {
             for (int y = 0; y < BOARD_HEIGHT; y++) {
                 for (int x = 0; x < BOARD_LENGTH; x++) {
                     envGrid[x][y] = new Environment(biomeGrid[x][y]);
+                    envGrid[x][y].number = (y * BOARD_LENGTH) + x;
                 }
             }
 
@@ -290,6 +303,7 @@ public class SetupUIJfx extends Application {
             } else {
                 biomeGrid[selectedX][selectedY] = nameToBiome.get(paint);
                 envGrid[selectedX][selectedY] = new Environment(biomeGrid[selectedX][selectedY]);
+                envGrid[selectedX][selectedY].number = (selectedY * BOARD_LENGTH) + selectedX;
             }
         }
         renderOverlay();

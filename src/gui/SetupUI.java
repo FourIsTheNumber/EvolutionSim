@@ -1,9 +1,12 @@
 package gui;
 
-import components.Environment;
 import utils.GeneList;
 
 import javax.swing.*;
+
+/**
+ * Deprecated Swing ui builder
+ */
 
 public class SetupUI extends JFrame {
     private JPanel contentPane;

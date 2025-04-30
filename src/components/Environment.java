@@ -1,9 +1,12 @@
 package components;
 
+import utils.Logger;
 import utils.RandomUtils;
 
 import java.util.ArrayList;
 
+import static utils.Logger.LOG_EMPTY_ENVIRONMENTS;
+import static utils.Logger.LOG_EVERY_CREATURE;
 import static utils.RandomUtils.rollPercent;
 import static utils.RandomUtils.rollRange;
 
@@ -17,6 +20,8 @@ public class Environment {
     private final Biome biome;
 
     private int foodUsedLast;
+
+    public int number;
 
     private boolean isAquatic = false;
 
@@ -83,18 +88,29 @@ public class Environment {
         return suitable;
     }
 
+    public double getAverageGene(String geneKey) {
+        int total = 0;
+        for (Creature c : creatures) {
+            total += c.genome.get(geneKey).value;
+        }
+        return (double) total / creatures.size();
+    }
+
     // Currently, a simulated year goes through three steps for every creature in the environment.
     // First, it finds a chance for that creature to die based on its fitness to this environment.
     // Next, it checks if the creature is of reproductive age and simulates reproduction if possible.
     // Finally, it prepares for the next year by incrementing age and other environment variables.
-    public void simulateYear() {
+    public void simulateYear(int totalYears) {
         // Initialize the year's food
         int food = foodCapacity;
 
         ArrayList<Creature> reproductiveQueue = new ArrayList<>();
         ArrayList<Creature> deathQueue = new ArrayList<>();
 
+        if (!LOG_EVERY_CREATURE && (LOG_EMPTY_ENVIRONMENTS || !creatures.isEmpty())) Logger.logEnvironment(this, totalYears);
         for (Creature c : creatures) {
+            if (LOG_EVERY_CREATURE) Logger.logCreature(this, c, totalYears);
+
             // Use food
             boolean ateFood = food >= c.foodUse;
             food -= c.foodUse;

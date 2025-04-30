@@ -1,8 +1,0 @@
-Major:
-
-Ideas:
--Potential mega-optimization. When a tile has reached its food capacity, convert the tile's creatures into a special
-object, CreatureBlock. CreatureBlock represents every creature in the environment. Instead of simulating death, migration,
-and reproduction for every creature on the individual level, simulate this on the level of the CreatureBlock. Migration will
-now handle 4 cases: Creatures -> Creatures, CreatureBlock -> Creatures, Creatures -> CreatureBlock, CreatureBlock -> CreatureBlock.
-CreatureBlock will represent its genetics as float values representing the average.

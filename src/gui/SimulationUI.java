@@ -18,6 +18,10 @@ import java.util.Objects;
 import static utils.GeneList.fullGeneList;
 import static utils.RandomUtils.rollRange;
 
+/**
+ * Deprecated Swing ui builder
+ */
+
 public class SimulationUI extends JFrame {
     private JPanel contentPane;
     public JLabel yearsLabel;
@@ -155,7 +159,7 @@ public class SimulationUI extends JFrame {
         for (int i = 0; i < years; i++) {
             for (JButton p : panelGrid) {
                 Environment env = panelEnvMap.get(p);
-                env.simulateYear();
+                env.simulateYear(totalYears);
                 if (env.creatures.size() > maxPopulation) maxPopulation = env.creatures.size();
                 p.setText(Integer.toString(env.creatures.size()));
             }
