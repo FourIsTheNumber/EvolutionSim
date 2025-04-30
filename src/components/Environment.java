@@ -83,8 +83,6 @@ public class Environment {
         return suitable;
     }
 
-    // For now, I'm going to model asexual reproduction, since parentage will be more complicated.
-
     // Currently, a simulated year goes through three steps for every creature in the environment.
     // First, it finds a chance for that creature to die based on its fitness to this environment.
     // Next, it checks if the creature is of reproductive age and simulates reproduction if possible.
@@ -126,7 +124,7 @@ public class Environment {
                 // Simulate chance to die based on the difference between temperature and genetic optimal temperature
                 // TODO: this should be a (more complex) function call passed to the creature
                 int ageFactor = (int) Math.round(0.3F * (Math.pow(c.age, 2)) / 40);
-                int deathRate = (Math.abs((temperature - c.getGene("temp")) * 5) + ageFactor);
+                int deathRate = (Math.abs((temperature - c.getGene("temp")))* 3 + ageFactor);
                 // Apply harsh penalty for starved creatures
                 if (!ateFood) deathRate += 30;
                 if (rollPercent(deathRate)) {
@@ -137,14 +135,19 @@ public class Environment {
                 // Do reproduction if creature is old enough and was able to eat this year
                 if (c.age >= c.getGene("repAge") && ateFood) {
                     if (rollPercent(c.getGene("repRate"))) {
-                        reproductiveQueue.add(new Creature(c));
+                        reproductiveQueue.add(c);
                     }
                 }
 
                 // Increment age
                 c.age += 1;
             }
-            creatures.addAll(reproductiveQueue);
+            while (reproductiveQueue.size() > 1) {
+                Creature p1 = reproductiveQueue.remove(0);
+                Creature p2 = reproductiveQueue.remove(rollRange(0, reproductiveQueue.size()));
+
+                creatures.add(new Creature(p1, p2));
+            }
             creatures.removeAll(deathQueue);
 
         foodUsedLast = foodCapacity - food;
@@ -153,9 +156,6 @@ public class Environment {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        //for (Species sp : species) {
-        //    s.append(sp);
-        //}
         s.append("\nFood used this year: ").append(foodUsedLast);
         return s.toString();
     }

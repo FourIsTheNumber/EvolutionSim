@@ -2,6 +2,7 @@ package components;
 import java.util.HashMap;
 
 import static utils.GeneList.fullGeneList;
+import static utils.RandomUtils.rollBoolean;
 
 public class Creature {
     public HashMap<String, Gene> genome = new HashMap<>();
@@ -23,6 +24,15 @@ public class Creature {
         for (Gene g : parent.genome.values()) {
             genome.put(g.data.key, g.copy());
             foodUse += (g.data.foodAssociation * g.value);
+        }
+        age = 0;
+    }
+
+    public Creature(Creature parent1, Creature parent2) {
+        for (Gene g : parent1.genome.values())  {
+            Gene newGene = rollBoolean() ? g.copy() : parent2.genome.get(g.data.key).copy();
+            genome.put(newGene.data.key, newGene);
+            foodUse += (newGene.data.foodAssociation * newGene.value);
         }
         age = 0;
     }

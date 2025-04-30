@@ -114,7 +114,8 @@ public class SetupUIJfx extends Application {
 
             // Update creature labels
             populationLabel.setText("Population: " + selectedEnv.creatures.size());
-            speciesTemperatureLabel.setText("Average Temperature Tolerance: " + selectedEnv.calculateAverageTolerance());
+            int averageTemp = selectedEnv.calculateAverageTolerance();
+            speciesTemperatureLabel.setText("Avg. Temperature Tolerance: " + (averageTemp > -1 ? averageTemp : "N/A"));
         }
     }
 
