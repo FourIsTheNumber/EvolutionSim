@@ -14,7 +14,6 @@ public class Environment {
     private final int temperature;
     // Refreshed yearly - creatures must have food to survive.
     // Food rules: Creatures that go hungry NEVER reproduce. They have much higher chance to die.
-    // TODO: model j curve: over-usage of food should lead to shortage and slow recovery
     private final int foodCapacity;
 
     private final Biome biome;
@@ -126,7 +125,6 @@ public class Environment {
             }
 
             // Try migration
-            // TODO: Use local temperature
             if (rollPercent(ateFood ? 1 : 90)) {
                 Environment n = neighbors.get(rollRange(0, neighbors.size()));
                 // Do not migrate to unsuitable biomes
@@ -138,7 +136,6 @@ public class Environment {
             }
 
                 // Simulate chance to die based on the difference between temperature and genetic optimal temperature
-                // TODO: this should be a (more complex) function call passed to the creature
                 int ageFactor = (int) Math.round(0.3F * (Math.pow(c.age, 2)) / 40);
                 int deathRate = (Math.abs((temperature - c.getGene("temp")))* 3 + ageFactor);
                 // Apply harsh penalty for starved creatures

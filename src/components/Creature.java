@@ -14,7 +14,7 @@ public class Creature {
     public Creature() {
         for (Gene g : fullGeneList) {
             genome.put(g.data.key, g);
-            foodUse += (g.data.foodAssociation * g.value);
+            foodUse += g.data.foodAssociation.applyAsInt(g.value);
         }
         age = 0;
     }
@@ -23,7 +23,7 @@ public class Creature {
     public Creature(Creature parent) {
         for (Gene g : parent.genome.values()) {
             genome.put(g.data.key, g.copy());
-            foodUse += (g.data.foodAssociation * g.value);
+            foodUse += g.data.foodAssociation.applyAsInt(g.value);
         }
         age = 0;
     }
@@ -32,7 +32,7 @@ public class Creature {
         for (Gene g : parent1.genome.values())  {
             Gene newGene = rollBoolean() ? g.copy() : parent2.genome.get(g.data.key).copy();
             genome.put(newGene.data.key, newGene);
-            foodUse += (newGene.data.foodAssociation * newGene.value);
+            foodUse += g.data.foodAssociation.applyAsInt(newGene.value);
         }
         age = 0;
     }

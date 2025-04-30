@@ -16,7 +16,7 @@ public enum Biome {
     Desert("Desert", 9, 50, "resources/biomeTiles/desertTile.png",
             List.of("resources/biomeDecorations/cactus1.png",
                     "resources/biomeDecorations/cactus2.png")),
-    Forest("Forest", 5, 300, "resources/biomeTiles/forestTile.png",
+    Forest("Forest", 5, 150, "resources/biomeTiles/forestTile.png",
             List.of("resources/biomeDecorations/tree1.png",
                     "resources/biomeDecorations/tree2.png",
                     "resources/biomeDecorations/tree3.png")),
@@ -28,7 +28,7 @@ public enum Biome {
             List.of("resources/biomeDecorations/wave1.png",
                     "resources/biomeDecorations/wave2.png",
                     "resources/biomeDecorations/wave3.png")),
-    Plains("Plains", 4, 200, "resources/biomeTiles/plainsTile.png",
+    Plains("Plains", 4, 100, "resources/biomeTiles/plainsTile.png",
             List.of("resources/biomeDecorations/grass1.png"));
 
 
