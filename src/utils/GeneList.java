@@ -21,9 +21,9 @@ public class GeneList {
         // Determines reproduction rate
         fullGeneList.add(new Gene(50, ReproductiveRate));
         // Special gene determining ability to survive in water.
-        // At any value from 6-10, creatures die instantly in aquatic biomes and will not enter them willingly.
-        // At any value from 0-4, creatures die instantly in land biomes and will not enter them willingly.
-        // At value 5, creatures can enter either biome but take penalties.
-        fullGeneList.add(new Gene(10, Aquatic));
+        // At any value from 4-5, creatures die instantly in aquatic biomes and will not enter them willingly.
+        // At any value from 1-2, creatures die instantly in land biomes and will not enter them willingly.
+        // At value 3, creatures can enter either biome but take penalties.
+        fullGeneList.add(new Gene(3, Aquatic));
     }
 }

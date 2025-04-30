@@ -10,7 +10,7 @@ public enum GenePacket {
     Temperature("temp", x -> Math.abs(5 - x), 0, 10),
     ReproductiveAge("repAge", x -> 0, 12, 30),
     ReproductiveRate("repRate", x -> 0, 40, 60),
-    Aquatic("aquatic", x -> 0, 0, 10);
+    Aquatic("aquatic", x -> x == 3 ? 1 : 0, 1, 5);
 
     public final String key;
     // Applied with value to determine effect on total food cost

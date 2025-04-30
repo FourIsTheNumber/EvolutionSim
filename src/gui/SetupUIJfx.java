@@ -310,6 +310,9 @@ public class SetupUIJfx extends Application {
         updateLabels();
     }
 
+    private static final Image landCreature = new Image("resources/creacher.png");
+    private static final Image seaCreature = new Image("resources/fish-creacher.png");
+
     private void renderNoOverlay() {
         Canvas canvas = new Canvas(BOARD_LENGTH * TILE_SIZE, BOARD_HEIGHT * TILE_SIZE);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -349,12 +352,11 @@ public class SetupUIJfx extends Application {
                 if (envGrid[x][y].creatures.isEmpty()) continue;
                 int creaturesToDraw = Math.max(Math.min(envGrid[x][y].creatures.size() / 50, 10), 1);
                 for (int i = 0; i < creaturesToDraw; i++) {
-                    Image decor = new Image("resources/creacher.png");
 
                     int offsetX = x * TILE_SIZE + rollRange(TILE_SIZE - 12);
                     int offsetY = y * TILE_SIZE + rollRange(TILE_SIZE - 12);
 
-                    gc.drawImage(decor, offsetX, offsetY, 12, 12);
+                    gc.drawImage(envGrid[x][y].getAquatic() ? seaCreature : landCreature, offsetX, offsetY, 12, 12);
                 }
             }
         }

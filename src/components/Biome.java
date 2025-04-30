@@ -24,7 +24,7 @@ public enum Biome {
             List.of("resources/biomeDecorations/taigahill.png",
                     "resources/biomeDecorations/taigatree1.png",
                     "resources/biomeDecorations/taigatree2.png")),
-    Ocean("Ocean", 5, 0, "resources/biomeTiles/oceanTile.png",
+    Ocean("Ocean", 5, 200, "resources/biomeTiles/oceanTile.png",
             List.of("resources/biomeDecorations/wave1.png",
                     "resources/biomeDecorations/wave2.png",
                     "resources/biomeDecorations/wave3.png")),

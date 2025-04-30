@@ -60,6 +60,10 @@ public class Environment {
 
     public Biome getBiome() { return biome; }
 
+    public boolean getAquatic() {
+        return isAquatic;
+    }
+
     public int getFoodCapacity() {
         return foodCapacity;
     }
@@ -115,11 +119,11 @@ public class Environment {
             food -= c.foodUse;
 
             int aFactor = c.getGene("aquatic");
-            boolean aquaticCreature = aFactor <= 5;
-            boolean landCreature = aFactor >= 5;
+            boolean aquaticCreature = aFactor <= 3;
+            boolean landCreature = aFactor >= 3;
 
             // Kill creatures in unsuitable biomes
-            if (isAquatic && !aquaticCreature || !isAquatic && aquaticCreature) {
+            if (isAquatic && !aquaticCreature || !isAquatic && !landCreature) {
                 deathQueue.add(c);
                 continue;
             }
@@ -135,33 +139,34 @@ public class Environment {
                 }
             }
 
-                // Simulate chance to die based on the difference between temperature and genetic optimal temperature
-                int ageFactor = (int) Math.round(0.3F * (Math.pow(c.age, 2)) / 40);
-                int deathRate = (Math.abs((temperature - c.getGene("temp")))* 3 + ageFactor);
-                // Apply harsh penalty for starved creatures
-                if (!ateFood) deathRate += 30;
-                if (rollPercent(deathRate)) {
-                    deathQueue.add(c);
-                    continue;
-                }
-
-                // Do reproduction if creature is old enough and was able to eat this year
-                if (c.age >= c.getGene("repAge") && ateFood) {
-                    if (rollPercent(c.getGene("repRate"))) {
-                        reproductiveQueue.add(c);
-                    }
-                }
-
-                // Increment age
-                c.age += 1;
+            // Simulate chance to die based on the difference between temperature and genetic optimal temperature
+            int ageFactor = (int) Math.round(0.3F * (Math.pow(c.age, 2)) / 40);
+            int deathRate = (Math.abs((temperature - c.getGene("temp"))) * 2 + ageFactor);
+            // Apply harsh penalty for starved creatures
+            if (!ateFood) deathRate += 30;
+            if (rollPercent(deathRate)) {
+                deathQueue.add(c);
+                continue;
             }
-            while (reproductiveQueue.size() > 1) {
-                Creature p1 = reproductiveQueue.remove(0);
-                Creature p2 = reproductiveQueue.remove(rollRange(0, reproductiveQueue.size()));
 
-                creatures.add(new Creature(p1, p2));
+            // Do reproduction if creature is old enough and was able to eat this year
+            if (c.age >= c.getGene("repAge") && ateFood) {
+                if (rollPercent(c.getGene("repRate"))) {
+                    reproductiveQueue.add(c);
+                }
             }
-            creatures.removeAll(deathQueue);
+
+            // Increment age
+            c.age += 1;
+        }
+
+        while (reproductiveQueue.size() > 1) {
+            Creature p1 = reproductiveQueue.remove(0);
+            Creature p2 = reproductiveQueue.remove(rollRange(0, reproductiveQueue.size()));
+
+            creatures.add(new Creature(p1, p2));
+        }
+        creatures.removeAll(deathQueue);
 
         foodUsedLast = foodCapacity - food;
     }
